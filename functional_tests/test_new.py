@@ -16,7 +16,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         """создать новый колокольчик"""
 
         # Иван заходит на сайт
-        self.browser.get("http://127.0.0.1:8000")
+        self.browser.get(self.live_server_url)
 
         # Видит заголовок сайта "Мой колокольчик"
         self.assertEqual(self.browser.title, "Мой колокольчик")
@@ -24,7 +24,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.assertIn('Мой колокольчик', header_text)
 
         # Он видит поле для ввода названия колокольчика
-        new_bell_iputbox = self.browser.find_element_by_id("id_new_bell")
+        new_bell_iputbox = self.browser.find_element_by_id("id_new_bell_title")
         self.assertEqual(new_bell_iputbox.get_attribute("placeholder"), "Введите имя для колокольчика")
         new_bell_iputbox.send_keys("Важные письма")
         new_bell_iputbox.send_keys(Keys.ENTER)
