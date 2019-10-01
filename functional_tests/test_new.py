@@ -83,7 +83,7 @@ class FunctionalTest(StaticLiveServerTestCase):
 
         # Так же он видит адрес и информацию, для отправки уведомлений на этот колокольчик методом пост-запросов
         address_for_post = self.browser.find_element_by_id('id_address_for_post').text
-        url_search = re.search(r'http://.+/bell/.+$', address_for_post)
+        url_search = re.search(r'http://.+/bells/.+$', address_for_post)
         if not url_search:
             self.fail(f'Не найден адрес для пост-запроса.')
         url = url_search.group(0)

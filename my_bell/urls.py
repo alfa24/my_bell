@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from bell import views as bell_views
+from bell import urls as bell_urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    url(r'bells/', include(bell_urls)),
     url(r'^$', bell_views.index_view, name='index'),
 ]
