@@ -20,5 +20,5 @@ from bell import views as bell_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    url(r'^$', bell_views.IndexView, name='index'),
+    url(r'^$', bell_views.index_view, name='index'),
 ]
