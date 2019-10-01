@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 
 
 # Create your views here.
+from bell.models import Bell
+
 
 def index_view(request):
     """Представление главной страницы"""
@@ -11,8 +13,9 @@ def index_view(request):
 
 def new_bell(request):
     """создание колокольчика"""
+    bell = Bell.objects.create()
 
-    return redirect('bell_view', 1)
+    return redirect('bell_view', bell.link_ref)
 
 
 def bell_view(request, code):
