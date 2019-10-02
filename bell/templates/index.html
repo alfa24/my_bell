@@ -8,7 +8,7 @@
 <h1>Мой колокольчик</h1>
 <form action="{% url 'new_bell' %}" method="post">
     {% csrf_token %}
-    <input id="id_new_bell_title" name="new_bell_title" type="text" placeholder="Введите имя для колокольчика">
+    <input id="id_bell_title" name="bell_title" type="text" placeholder="Введите имя для колокольчика">
 </form>
 </body>
 </html>

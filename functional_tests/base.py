@@ -3,6 +3,7 @@ import time
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
+from selenium.webdriver.common.keys import Keys
 
 MAX_WAIT = 20
 
@@ -52,3 +53,17 @@ class FunctionalTest(StaticLiveServerTestCase):
 
         self.browser.find_element_by_css_selector(".bell .stop-ring")
         # не должно поднять исключение
+
+    def get_bell_title_inputbox(self):
+        """Получить поле ввода имени колокольчика"""
+
+        return self.browser.find_element_by_id("id_bell_title")
+
+    def add_new_bell(self, title):
+        """Создать новый колокольчик"""
+
+        self.browser.get(self.live_server_url)
+        new_bell_inputbox = self.get_bell_title_inputbox()
+        self.assertEqual(new_bell_inputbox.get_attribute("placeholder"), "Введите имя для колокольчика")
+        new_bell_inputbox.send_keys(title)
+        new_bell_inputbox.send_keys(Keys.ENTER)

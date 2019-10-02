@@ -1,4 +1,5 @@
 import re
+from unittest import skip
 
 from selenium.webdriver.common.keys import Keys
 
@@ -20,10 +21,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('Мой колокольчик', header_text)
 
         # Он видит поле для ввода названия колокольчика
-        new_bell_iputbox = self.browser.find_element_by_id("id_new_bell_title")
-        self.assertEqual(new_bell_iputbox.get_attribute("placeholder"), "Введите имя для колокольчика")
-        new_bell_iputbox.send_keys("Важные письма")
-        new_bell_iputbox.send_keys(Keys.ENTER)
+        self.add_new_bell("Важные письма")
 
         # И попадает на страницу нового колокольчика
         self.assertEqual(self.browser.title, "Колокольчик: Важные письма")
@@ -33,6 +31,13 @@ class NewVisitorTest(FunctionalTest):
         # Он видит сообщение, что колокольчик ждет события
         text = self.browser.find_element_by_tag_name('h3').text
         self.assertIn('Ждем события....', text)
+
+    @skip
+    def test_ring_bell_after_post_request(self):
+        """тест: колокольчик звенит после пост-запроса"""
+
+        # Ивано создает новый колокольчик
+        self.add_new_bell("Важные письма")
 
         # Так же он видит адрес и информацию, для отправки уведомлений на этот колокольчик методом пост-запросов
         address_for_post = self.browser.find_element_by_id('id_address_for_post').text
