@@ -9,6 +9,11 @@
             <div class="bell-title">
                 <h2>Важные письма</h2>
             </div>
+            <div class="bell-info">
+                <p>Для уведомления отправте POST-запрос на адрес {{ request.scheme }}://{{ request.get_host }}/{{ bell.get_absolute_url_for_events }}</p>
+                <p>Данные для отправки: <code>{"text": "Описание события"}</code></p>
+
+            </div>
             <div class="bell-status">
                 <h3>Ждем события....</h3>
             </div>

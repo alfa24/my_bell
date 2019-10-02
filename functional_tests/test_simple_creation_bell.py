@@ -32,7 +32,6 @@ class NewVisitorTest(FunctionalTest):
         text = self.browser.find_element_by_tag_name('.bell-status').text
         self.assertIn('Ждем события....', text)
 
-    @skip
     def test_ring_bell_after_post_request(self):
         """тест: колокольчик звенит после пост-запроса"""
 
@@ -40,8 +39,8 @@ class NewVisitorTest(FunctionalTest):
         self.add_new_bell("Важные письма")
 
         # Так же он видит адрес и информацию, для отправки уведомлений на этот колокольчик методом пост-запросов
-        address_for_post = self.browser.find_element_by_id('id_address_for_post').text
-        url_search = re.search(r'http://.+/bells/.+$', address_for_post)
+        address_for_post = self.browser.find_element_by_css_selector('.bell-info').text
+        url_search = re.search(r'http://.+/bells/.+/events/add', address_for_post)
         if not url_search:
             self.fail(f'Не найден адрес для пост-запроса.')
         url = url_search.group(0)
