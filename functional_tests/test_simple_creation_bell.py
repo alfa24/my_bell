@@ -18,18 +18,18 @@ class NewVisitorTest(FunctionalTest):
         # Видит заголовок сайта "Мой колокольчик"
         self.assertEqual(self.browser.title, "Мой колокольчик")
         header_text = self.browser.find_element_by_tag_name('h1').text
-        self.assertIn('Мой колокольчик', header_text)
+        self.assertIn('Создай свой колокольчик!', header_text)
 
         # Он видит поле для ввода названия колокольчика
         self.add_new_bell("Важные письма")
 
         # И попадает на страницу нового колокольчика
         self.assertEqual(self.browser.title, "Колокольчик: Важные письма")
-        header_text = self.browser.find_element_by_tag_name('h1').text
+        header_text = self.browser.find_element_by_css_selector('.bell-title').text
         self.assertIn('Важные письма', header_text)
 
         # Он видит сообщение, что колокольчик ждет события
-        text = self.browser.find_element_by_tag_name('h3').text
+        text = self.browser.find_element_by_tag_name('.bell-status').text
         self.assertIn('Ждем события....', text)
 
     @skip

@@ -1,14 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Мой колокольчик</title>
-</head>
-<body>
-<h1>Мой колокольчик</h1>
-<form action="{% url 'new_bell' %}" method="post">
-    {% csrf_token %}
-    <input id="id_bell_title" name="bell_title" type="text" placeholder="Введите имя для колокольчика">
-</form>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}
+    Мой колокольчик
+{% endblock %}
+
+
+
+
+{% block content %}
+    <div class="jumbotron center-block">
+        <h1 class="text-center">Создай свой колокольчик!</h1>
+
+        <div class="form-new-bell col-xs-12 col-sm-8 col-md-6 col-lg-5 center-block">
+            <form action="{% url 'new_bell' %}" method="post">
+                {% csrf_token %}
+                <div class="input-group input-group-lg">
+                    <input id="id_bell_title" name="bell_title" type="text"
+                           class="form-control"
+                           placeholder="Введите имя для колокольчика">
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" type="submit">Go!</button>
+                    </span>
+                </div>
+            </form>
+        </div>
+
+    </div>
+{% endblock %}

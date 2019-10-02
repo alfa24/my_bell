@@ -1,11 +1,18 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Колокольчик: Важные письма</title>
-</head>
-<body>
-<h1>Важные письма</h1>
-<h3>Ждем события....</h3>
-</body>
-</html>
+{% extends "base.html" %}
+{% block title %}
+    Колокольчик: Важные письма
+{% endblock %}
+
+{% block content %}
+    <div class="bell">
+        <div class="bell-wrapper">
+            <div class="bell-title">
+                <h2>Важные письма</h2>
+            </div>
+            <div class="bell-status">
+                <h3>Ждем события....</h3>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

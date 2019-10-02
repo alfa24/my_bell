@@ -18,14 +18,14 @@ class LayoutAndStylingTest(FunctionalTest):
         # Он замечает что поле ввода аккуратно центрировано
         inputbox = self.get_bell_title_inputbox()
         self.assertAlmostEqual(
-            inputbox.location['x'] + inputbox.size['width'] / 2,
+            inputbox.location['x'] + (inputbox.size['width'] + 60) / 2,
             512,
             delta=10
         )
 
         # он создает новый колокольчик и видит, что там тоже поле центрировано
         self.add_new_bell('Сообщение в чате')
-        bell_title = self.browser.find_element_by_css_selector("h1")
+        bell_title = self.browser.find_element_by_css_selector(".bell-title")
         self.assertAlmostEqual(
             bell_title.location['x'] + bell_title.size['width'] / 2,
             512,

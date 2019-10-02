@@ -1,0 +1,23 @@
+.center-block{
+    display: block;
+    float: none;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.form-new-bell{
+    margin-top: 52px;
+    margin-bottom: 20px;
+}
+
+.bell {
+    height: 100%;
+    width: 100%;
+}
+.bell-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    align-content: space-between;
+}
