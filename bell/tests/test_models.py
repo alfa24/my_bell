@@ -41,3 +41,31 @@ class EventModelTest(TestCase):
 
         event = Event(bell=Bell())
         self.assertEqual(event.text, "")
+
+    def test_read_all_events(self):
+        """test: отметить прочтенными все сообщения"""
+
+        bell = Bell.objects.create()
+        Event.objects.create(bell=bell)
+        Event.objects.create(bell=bell)
+
+        Event.objects.read_all(bell=bell)
+
+        event1 = Event.objects.first()
+        event2 = Event.objects.last()
+        self.assertTrue(event1.read)
+        self.assertTrue(event2.read)
+
+    def test_get_latest_events(self):
+        """test: получить последние сообщения"""
+
+        bell = Bell.objects.create()
+        Event.objects.create(bell=bell)
+        Event.objects.create(bell=bell)
+
+        events = Event.objects.latest(bell=bell)
+
+        event1 = Event.objects.first()
+        event2 = Event.objects.last()
+        self.assertEqual(events[0], event1)
+        self.assertTrue(events[1], event2)

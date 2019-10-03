@@ -1,6 +1,7 @@
-from django.http import HttpResponse
-from django.shortcuts import render, redirect
+import json
 
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect
 
 # Create your views here.
 
@@ -26,9 +27,29 @@ def bell_view(request, link_ref):
     return render(request, 'bell.html', context={"bell": bell})
 
 
+def last_event(request, link_ref):
+    """получить последнее событие колокольчика"""
+    event = Event.objects.filter(bell__link_ref=link_ref).last()
+    return JsonResponse({"text": event.text, "read": event.read})
+
+
+def latest_events(request, link_ref):
+    """получить последние события колокольчика"""
+    bell = Bell.objects.get(link_ref=link_ref)
+    events_dict = list(Event.objects.latest(bell).values("text", "read"))
+    return JsonResponse(events_dict, safe=False)
+
+
+def read_events(request, link_ref):
+    """получить последнее событие колокольчика"""
+    Event.objects.filter(bell__link_ref=link_ref).update(read=True)
+    Event.objects.update(read=True)
+    return redirect('last_event', link_ref)
+
+
 def new_event(request, link_ref):
     """добавление нового события"""
     bell = Bell.objects.get(link_ref=link_ref)
     text = request.POST.get("text")
     event = Event.objects.create(bell=bell, text=text)
-    return HttpResponse({"status": "ok"})
+    return JsonResponse({"status": "ok"})

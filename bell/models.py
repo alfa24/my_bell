@@ -5,6 +5,8 @@ from django.db import models
 # Create your models here.
 from django.urls import reverse
 
+from bell.managers import EventManager
+
 
 class Bell(models.Model):
     """модель колокольчика"""
@@ -23,3 +25,6 @@ class Event(models.Model):
 
     bell = models.ForeignKey(Bell, on_delete=models.CASCADE)
     text = models.CharField(max_length=255, default="", blank=True, null=True)
+    read = models.BooleanField(default=False)
+
+    objects = EventManager()
