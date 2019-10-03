@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block title %}
     Колокольчик: Важные письма
 {% endblock %}
@@ -10,14 +11,24 @@
                 <h2>Важные письма</h2>
             </div>
             <div class="bell-info">
-                <p>Для уведомления отправте POST-запрос на адрес {{ request.scheme }}://{{ request.get_host }}/{{ bell.get_absolute_url_for_events }}</p>
+                <p>Для уведомления отправте POST-запрос на
+                    адрес {{ request.scheme }}://{{ request.get_host }}/{{ bell.get_absolute_url_for_events }}</p>
                 <p>Данные для отправки: <code>{"text": "Описание события"}</code></p>
 
             </div>
-            <div class="bell-status">
+            <div class="bell-status not-ring">
                 <h3>Ждем события....</h3>
             </div>
         </div>
     </div>
 
+{% endblock %}
+
+{% block script %}
+    <script>
+        window.bell = {
+            "last_event_url": "{{ bell.get_absolute_url }}events/last/"
+        };
+    </script>
+    <script src="{% static "bell.js" %}"></script>
 {% endblock %}

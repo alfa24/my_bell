@@ -4,6 +4,7 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 
 # Create your views here.
+from django.views.decorators.csrf import csrf_exempt
 
 from bell.models import Bell, Event
 
@@ -47,6 +48,7 @@ def read_events(request, link_ref):
     return redirect('last_event', link_ref)
 
 
+@csrf_exempt
 def new_event(request, link_ref):
     """добавление нового события"""
     bell = Bell.objects.get(link_ref=link_ref)

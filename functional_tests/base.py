@@ -44,14 +44,14 @@ class FunctionalTest(StaticLiveServerTestCase):
     def wait_for_ring(self):
         """ожидать когда зазвенит колокольчик"""
 
-        self.browser.find_element_by_css_selector(".bell .ring")
+        self.browser.find_element_by_css_selector(".bell-status .ring")
         # не должно поднять исключение
 
     @wait
     def wait_for_stop_ring(self):
         """ожидать когда зазвенит колокольчик"""
 
-        self.browser.find_element_by_css_selector(".bell .stop-ring")
+        self.browser.find_element_by_css_selector(".bell-status .not-ring")
         # не должно поднять исключение
 
     def get_bell_title_inputbox(self):

@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,6 +11,10 @@
 </head>
 <body>
 {% block content %}
+{% endblock %}
+
+<script src="{% static "jquery-3.4.1.js" %}"></script>
+{% block script %}
 {% endblock %}
 </body>
 </html>
