@@ -12,7 +12,7 @@
             </div>
             <div class="bell-info">
                 <p>Для уведомления отправте POST-запрос на
-                    адрес {{ request.scheme }}://{{ request.get_host }}/{{ bell.get_absolute_url_for_events }}</p>
+                    адрес {{ request.scheme }}://{{ request.get_host }}{{ bell.get_absolute_url_for_events }}</p>
                 <p>Данные для отправки: <code>{"text": "Описание события"}</code></p>
 
             </div>
