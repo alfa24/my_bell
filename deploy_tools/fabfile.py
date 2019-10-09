@@ -55,7 +55,8 @@ def _update_settings(source_folder, site_name):
     sed(settings_path, "DEBUG = True", "DEBUG = False")
     sed(settings_path,
         'ALLOWED_HOSTS =.+$',
-        f'ALLOWED_HOSTS = ["{site_name}"]'
+        # f'ALLOWED_HOSTS = ["{site_name}"]'
+        f'ALLOWED_HOSTS = ["*"]'
         )
     secret_key_file = f'{source_folder}/{SITENAME}/secret_key.py'
     if not exists(secret_key_file):
@@ -93,7 +94,7 @@ def _configure_gunicorn_service(source_folder):
 
     sed(gunicorn_conf_service, "SITENAME", SITENAME, use_sudo=True)
     sed(gunicorn_conf_service, "USERNAME", env.user, use_sudo=True)
-    sed(gunicorn_conf_service, "EMAIL_PASSWORD_YANDEX", EMAIL_PASSWORD, use_sudo=True)
+    # sed(gunicorn_conf_service, "EMAIL_PASSWORD_YANDEX", EMAIL_PASSWORD, use_sudo=True)
 
     run(f'sudo systemctl daemon-reload && '
         f'sudo systemctl enable {SITENAME} && '

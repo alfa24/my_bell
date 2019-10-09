@@ -7,6 +7,7 @@ User=USERNAME
 WorkingDirectory=/home/SITENAME
 Environment=EMAIL_PASSWORD=EMAIL_PASSWORD_YANDEX
 ExecStart=/home/SITENAME/venv/bin/gunicorn \
+-b 0.0.0.0:8003
 --bind unix:/tmp/SITENAME.socket \
 --capture-output \
 --access-logfile ../access.log \
