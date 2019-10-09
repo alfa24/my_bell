@@ -7,6 +7,7 @@ $(function () {
             url: window.bell.last_event_url,
             success: function (jsondata) {
                 if (jsondata.read || jsondata.read === undefined) {
+                    $(".bell-status audio").trigger("pause");
                     $(".bell-status__text").text("Ждем события....");
                     $(".bell-status").addClass("not-ring");
                     $(".bell-status").removeClass("ring");
@@ -14,6 +15,7 @@ $(function () {
                     $(".bell-status__text").text(jsondata.text);
                     $(".bell-status").addClass("ring");
                     $(".bell-status").removeClass("not-ring");
+                    $(".bell-status audio").trigger("play");
                 }
             }
         });
