@@ -1,0 +1,17 @@
+[Unit]
+Description=Gunicorn server for SITENAME
+
+[Service]
+Restart=on-failure
+User=USERNAME
+WorkingDirectory=/home/SITENAME
+Environment=EMAIL_PASSWORD=EMAIL_PASSWORD_YANDEX
+ExecStart=/home/SITENAME/venv/bin/gunicorn \
+--bind unix:/tmp/SITENAME.socket \
+--capture-output \
+--access-logfile ../access.log \
+--error-logfile ../error.log \
+SITENAME.wsgi:application
+
+[Install]
+WantedBy=multi-user.target
