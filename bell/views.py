@@ -30,10 +30,14 @@ def bell_view(request, link_ref):
 
 def last_event(request, link_ref):
     """получить последнее событие колокольчика"""
+
     event = Event.objects.filter(bell__link_ref=link_ref).last()
-    return JsonResponse({"text": event.text, "read": event.read})
+    if event:
+        return JsonResponse({"text": event.text, "read": event.read})
+    return JsonResponse({})
 
 
+@csrf_exempt
 def latest_events(request, link_ref):
     """получить последние события колокольчика"""
     bell = Bell.objects.get(link_ref=link_ref)
@@ -41,8 +45,9 @@ def latest_events(request, link_ref):
     return JsonResponse(events_dict, safe=False)
 
 
+@csrf_exempt
 def read_events(request, link_ref):
-    """получить последнее событие колокольчика"""
+    """отметить прочитанным все события колокольчика"""
     Event.objects.filter(bell__link_ref=link_ref).update(read=True)
     Event.objects.update(read=True)
     return redirect('last_event', link_ref)

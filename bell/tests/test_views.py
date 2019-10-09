@@ -111,3 +111,11 @@ class EventViewTest(TestCase):
         seconds_event = Event.objects.last()
         self.assertEqual(events[0]["text"], first_event.text)
         self.assertEqual(events[1]["text"], seconds_event.text)
+
+    def test_return_empty_list_if_not_events(self):
+        """test: вернуть пустой список если нет событий"""
+
+        bell = Bell.objects.create()
+        response = self.client.get(f'{bell.get_absolute_url()}events/last/')
+        events = json.loads(response.content)
+        self.assertEqual({}, events)

@@ -21,3 +21,7 @@
     justify-content: center;
     align-content: space-between;
 }
+
+.bell-status.not-ring .bell-status__read{
+    display: none;
+}

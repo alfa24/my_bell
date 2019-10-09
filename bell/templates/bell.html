@@ -17,7 +17,8 @@
 
             </div>
             <div class="bell-status not-ring">
-                <h3>Ждем события....</h3>
+                <h3 class="bell-status__text"></h3>
+                <button type="button" class="bell-status__read btn btn-danger center-block">Выключить</button>
             </div>
         </div>
     </div>
@@ -27,7 +28,8 @@
 {% block script %}
     <script>
         window.bell = {
-            "last_event_url": "{{ bell.get_absolute_url }}events/last/"
+            "last_event_url": "{{ bell.get_absolute_url }}events/last/",
+            "read_events_url": "{{ bell.get_absolute_url }}events/read"
         };
     </script>
     <script src="{% static "bell.js" %}"></script>

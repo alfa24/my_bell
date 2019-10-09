@@ -44,15 +44,27 @@ class FunctionalTest(StaticLiveServerTestCase):
     def wait_for_ring(self):
         """ожидать когда зазвенит колокольчик"""
 
-        self.browser.find_element_by_css_selector(".bell-status .ring")
+        self.browser.find_element_by_css_selector(".bell-status.ring")
         # не должно поднять исключение
+
+        # кнопка выключить отображается
+        read_button = self.browser.find_element_by_css_selector(".bell-status__read")
+        self.assertTrue(read_button.is_displayed())
 
     @wait
     def wait_for_stop_ring(self):
         """ожидать когда зазвенит колокольчик"""
 
-        self.browser.find_element_by_css_selector(".bell-status .not-ring")
+        self.browser.find_element_by_css_selector(".bell-status.not-ring")
         # не должно поднять исключение
+
+        # на экране сообщение, о том что колокольчик ждет уведомлений
+        text = self.browser.find_element_by_css_selector('.bell-status__text').text
+        self.assertIn('Ждем события....', text)
+
+        # кнопка выключить скрыта
+        read_button = self.browser.find_element_by_css_selector(".bell-status__read")
+        self.assertFalse(read_button.is_displayed())
 
     def get_bell_title_inputbox(self):
         """Получить поле ввода имени колокольчика"""

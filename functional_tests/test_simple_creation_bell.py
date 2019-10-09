@@ -29,8 +29,7 @@ class NewVisitorTest(FunctionalTest):
         self.assertIn('Важные письма', header_text)
 
         # Он видит сообщение, что колокольчик ждет события
-        text = self.browser.find_element_by_tag_name('.bell-status').text
-        self.assertIn('Ждем события....', text)
+        self.wait_for_stop_ring()
 
     def test_ring_bell_after_post_request(self):
         """тест: колокольчик звенит после пост-запроса"""
@@ -38,13 +37,16 @@ class NewVisitorTest(FunctionalTest):
         # Ивано создает новый колокольчик
         self.add_new_bell("Важные письма")
 
-        # Так же он видит адрес и информацию, для отправки уведомлений на этот колокольчик методом пост-запросов
+        # Теперь он видит адрес и информацию, для отправки уведомлений на этот колокольчик методом пост-запросов
         address_for_post = self.browser.find_element_by_css_selector('.bell-info').text
         url_search = re.search(r'http://.+/bells/.+/events/add', address_for_post)
         if not url_search:
             self.fail(f'Не найден адрес для пост-запроса.')
         url = url_search.group(0)
         self.assertIn(self.live_server_url, url)
+
+        # Так как нет событий, то колокольчик молчит
+        self.wait_for_stop_ring()
 
         # он отправляет пост-запрос из другого приложения на этот адрес
         self.client.post(url, data={'text': 'Новое письмо от Владимира!'})
@@ -53,16 +55,14 @@ class NewVisitorTest(FunctionalTest):
         self.wait_for_ring()
 
         # и на экран выходит сообщение
-        message = self.browser.find_element_by_id('id_message').text
+        message = self.browser.find_element_by_css_selector('.bell-status__text').text
         self.assertEqual(message, 'Новое письмо от Владимира!')
 
-        # Иван нажимает кнопку "Остановить"
-        stop_ring = self.browser.find_element_by_link_text("Остановить")
+        # Иван нажимает кнопку "Выключить"
+        stop_ring = self.browser.find_element_by_css_selector(".bell-status__read")
         stop_ring.click()
 
         # Звонок останавливается
         self.wait_for_stop_ring()
 
-        # и на экране опять сообщение, о том что колокольчик ждет уведомлений
-        text = self.browser.find_element_by_tag_name('h3').text
-        self.assertIn('Ждем события....', text)
+
