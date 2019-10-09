@@ -4,11 +4,14 @@ from fabric.contrib.files import append, exists, sed
 from fabric.api import env, local, run
 import random
 
+from fabric.operations import put
+
 REPO_URL = 'https://github.com/alfa24/my_bell.git'
 HOST = env.host
 USER = env.user
 EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
 SITENAME = "my_bell"
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
 def deploy():
@@ -25,8 +28,9 @@ def deploy():
     # _update_static_files(source_folder, virtualenv_folder)
     _update_database(source_folder, virtualenv_folder)
 
-    _configure_gunicorn_service(source_folder)
-    # _configure_nginx(source_folder)
+    # _configure_gunicorn_service(source_folder)
+    _configure_supervisor_service(source_folder, virtualenv_folder)
+    _configure_nginx(source_folder)
 
 
 def _create_directory_structure_if_necessary(site_folder):
@@ -100,6 +104,22 @@ def _configure_gunicorn_service(source_folder):
         f'sudo systemctl enable {SITENAME} && '
         f'sudo systemctl stop {SITENAME} && '
         f'sudo systemctl start {SITENAME}')
+
+
+def _configure_supervisor_service(source_folder, venv_folder):
+    """конфигурируем supervisor"""
+
+    supervisor_conf_template = f'{source_folder}/deploy_tools/supervisor.template.conf'
+    supervisor_conf_service = f'/etc/supervisor/conf.d/{SITENAME}.conf'
+    run(f'sudo cp {supervisor_conf_template} {supervisor_conf_service}')
+
+    sed(supervisor_conf_service, "SITENAME", SITENAME, use_sudo=True)
+    sed(supervisor_conf_service, "VENV_FOLDER", venv_folder, use_sudo=True)
+    sed(supervisor_conf_service, "SOURCE_FOLDER", source_folder, use_sudo=True)
+
+    run(f'sudo supervisorctl update && '
+        f'sudo supervisorctl reread && '
+        f'sudo supervisorctl restart {SITENAME}:*')
 
 
 def _configure_nginx(source_folder):

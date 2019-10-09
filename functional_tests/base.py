@@ -1,3 +1,4 @@
+import os
 import time
 
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
@@ -36,6 +37,9 @@ class FunctionalTest(StaticLiveServerTestCase):
 
     def setUp(self) -> None:
         self.browser = webdriver.Chrome("/usr/bin/chromedriver")
+        self.staging_server = os.environ.get('STAGING_SERVER')
+        if self.staging_server:
+            self.live_server_url = f'http://{self.staging_server}'
 
     def tearDown(self) -> None:
         self.browser.quit()
