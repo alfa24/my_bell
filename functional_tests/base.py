@@ -1,6 +1,7 @@
 import os
 import time
 
+import requests
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
@@ -75,7 +76,7 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.assertFalse(read_button.is_displayed())
 
     def send_event_to_bell(self, url, text):
-        self.client.post(url, data={'text': text})
+        requests.post(url, data={'text': text})
 
     def get_bell_title_inputbox(self):
         """Получить поле ввода имени колокольчика"""
