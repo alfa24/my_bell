@@ -26,7 +26,7 @@ class NewVisitorTest(FunctionalTest):
         # И попадает на страницу нового колокольчика
         self.assertEqual(self.browser.title, "Колокольчик: Важные письма")
         header_text = self.browser.find_element_by_css_selector('.bell-title').text
-        self.assertIn('Важные письма', header_text)
+        self.assertEqual('Важные письма', header_text)
 
         # Он видит сообщение, что колокольчик ждет события
         self.wait_for_stop_ring()

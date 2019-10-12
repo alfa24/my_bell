@@ -1,14 +1,14 @@
 {% extends "base.html" %}
 {% load static %}
 {% block title %}
-    Колокольчик: Важные письма
+    Колокольчик: {{ bell.title }}
 {% endblock %}
 
 {% block content %}
     <div class="bell">
         <div class="bell-wrapper">
             <div class="bell-title">
-                <h2>Важные письма</h2>
+                <h2>{{ bell.title }}</h2>
             </div>
             <div class="bell-info">
                 <p>Для уведомления отправте POST-запрос на
@@ -17,7 +17,7 @@
 
             </div>
             <div class="bell-status not-ring">
-                <audio class="bell-status__audio-player" src="{% static "bell_default.mp3" %}" loop="100"> </audio>
+                <audio class="bell-status__audio-player" src="{% static "bell_default.mp3" %}" loop="100"></audio>
                 <h3 class="bell-status__text"></h3>
                 <button type="button" class="bell-status__read btn btn-danger center-block">Выключить</button>
             </div>

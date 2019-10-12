@@ -20,7 +20,7 @@ class BellViewTest(TestCase):
     def test_redirect_after_POST(self):
         """test: переадресация после пост-запроса"""
 
-        response = self.client.post("/bells/new", data={"text": "Важные письма"})
+        response = self.client.post("/bells/new", data={"bell_title": "Важные письма"})
         bell = Bell.objects.first()
         self.assertRedirects(response, f"/bells/{bell.link_ref}/")
 
@@ -46,6 +46,13 @@ class BellViewTest(TestCase):
         bell = Bell.objects.create()
         response = self.client.post(bell.get_absolute_url_for_events(), data={"text": "Новое письмо от шефа"})
         self.assertEqual(response.status_code, 200)
+
+    def test_create_new_bell(self):
+        """test: Создание колокольчика """
+
+        response = self.client.post("/bells/new", data={"bell_title": "Важные письма"})
+        bell = Bell.objects.first()
+        self.assertEqual(bell.title, "Важные письма")
 
 
 class EventViewTest(TestCase):

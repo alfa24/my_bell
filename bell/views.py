@@ -17,7 +17,8 @@ def index_view(request):
 
 def new_bell(request):
     """создание колокольчика"""
-    bell = Bell.objects.create()
+    title = request.POST.get("bell_title")
+    bell = Bell.objects.create(title=title)
 
     return redirect('bell_view', bell.link_ref)
 

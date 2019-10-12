@@ -11,6 +11,7 @@ from bell.managers import EventManager
 class Bell(models.Model):
     """модель колокольчика"""
 
+    title = models.CharField(max_length=255, default="Без названия", blank=True, null=True)
     link_ref = models.UUIDField(default=uuid.uuid4)
 
     def get_absolute_url(self):

@@ -26,6 +26,14 @@ class BellModelTest(TestCase):
         bell = Bell.objects.create()
         self.assertEqual(f'/bells/{bell.link_ref}/events/add', bell.get_absolute_url_for_events())
 
+    def test_bell_can_have_title(self):
+        """test: колокольчик может иметь заголовок"""
+
+        Bell(title="new bell")
+        # не должно поднять исключение
+        bell = Bell()
+        self.assertEqual(bell.title, "Без названия")
+
 
 class EventModelTest(TestCase):
     """Тест модели события"""
