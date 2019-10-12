@@ -34,6 +34,12 @@ class BellModelTest(TestCase):
         bell = Bell()
         self.assertEqual(bell.title, "Без названия")
 
+    def test_bell_string_representation(self):
+        """test: строковое представление колокольчика"""
+
+        bell = Bell.objects.create(title="new bell")
+        self.assertEqual(str(bell), "new bell")
+
 
 class EventModelTest(TestCase):
     """Тест модели события"""

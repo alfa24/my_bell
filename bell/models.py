@@ -20,6 +20,9 @@ class Bell(models.Model):
     def get_absolute_url_for_events(self):
         return reverse('new_event', args=[self.link_ref])
 
+    def __str__(self):
+        return self.title
+
 
 class Event(models.Model):
     """события для колокольчика"""
