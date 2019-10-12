@@ -25,7 +25,7 @@ def deploy():
     _create_directory_structure_if_necessary(site_folder)
     _update_settings(source_folder, SITENAME)
     _update_virtualenv(source_folder, virtualenv_folder)
-    # _update_static_files(source_folder, virtualenv_folder)
+    _update_static_files(source_folder, virtualenv_folder)
     _update_database(source_folder, virtualenv_folder)
 
     # _configure_gunicorn_service(source_folder)
