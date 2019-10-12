@@ -82,5 +82,4 @@ class NewVisitorTest(FunctionalTest):
 
         # В списке событий начинает отображаться это уведомление
         event = self.wait_for(lambda: self.browser.find_element_by_css_selector('.events-table tbody tr'))
-        print(event.text)
         self.assertIn('Новое письмо от Ивана!', event.text)

@@ -12,7 +12,7 @@ class EventManager(Manager):
 
     def latest(self, bell):
         """получить последние сообщения"""
-        return self.filter(bell=bell)[:10]
+        return self.filter(bell=bell).order_by("-created_at")[:10]
 
     def latest_data(self, bell):
         """получить последние сообщения в формате json"""

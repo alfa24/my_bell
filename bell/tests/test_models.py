@@ -94,8 +94,20 @@ class EventModelTest(TestCase):
 
         event1 = Event.objects.first()
         event2 = Event.objects.last()
-        self.assertEqual(events[0], event1)
-        self.assertTrue(events[1], event2)
+        self.assertEqual(events[0], event2)
+        self.assertTrue(events[1], event1)
+
+    def test_latest_events_sorted_desc(self):
+        """test: Последние события отсортированы в порядке убывания"""
+
+        bell = Bell.objects.create()
+        e1 = Event.objects.create(bell=bell)
+        e2 = Event.objects.create(bell=bell)
+
+        events = Event.objects.latest(bell=bell)
+        self.assertEqual(events[0], e2)
+        self.assertEqual(events[0], e2)
+
 
     def test_get_latest_json_events(self):
         """test: получить последние сообщения в формате json"""

@@ -1,3 +1,4 @@
 django==2.2.5
 gunicorn
 fabric3
+requests

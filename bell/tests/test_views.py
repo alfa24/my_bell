@@ -117,10 +117,10 @@ class EventViewTest(TestCase):
         first_event = Event.objects.first()
         seconds_event = Event.objects.last()
 
-        self.assertEqual(events[0]["text"], first_event.text)
-        self.assertEqual(events[0]["date"], first_event.created_at.strftime("%d.%m.%y %H:%M:%S"))
-        self.assertEqual(events[1]["text"], seconds_event.text)
-        self.assertEqual(events[1]["date"], seconds_event.created_at.strftime("%d.%m.%y %H:%M:%S"))
+        self.assertEqual(events[0]["text"], seconds_event.text)
+        self.assertEqual(events[0]["date"], seconds_event.created_at.strftime("%d.%m.%y %H:%M:%S"))
+        self.assertEqual(events[1]["text"], first_event.text)
+        self.assertEqual(events[1]["date"], first_event.created_at.strftime("%d.%m.%y %H:%M:%S"))
 
     def test_return_empty_list_if_not_events(self):
         """test: вернуть пустой список если нет событий"""
