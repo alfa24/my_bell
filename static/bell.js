@@ -11,6 +11,12 @@ $(function () {
             perPageSelect: true
         },
     });
+    var dt = $('.events-table').dynatable({
+        dataset: {
+            records: []
+        }
+    }).data('dynatable');
+
 
     // проверить последнее событие
     var check_last_event = function () {
@@ -39,11 +45,8 @@ $(function () {
             dataType: 'json',
             url: window.bell.latest_events_url,
             success: function (jsondata) {
-                $('.events-table').dynatable({
-                    dataset: {
-                        records: jsondata
-                    }
-                });
+                dt.settings.dataset.originalRecords = jsondata;
+                dt.process();
             }
         });
     };
@@ -68,6 +71,4 @@ $(function () {
         update_latest_events();
         timerId = setTimeout(tick, 2000);
     }, 2000);
-
-
 });
