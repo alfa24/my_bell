@@ -45,6 +45,10 @@ class FunctionalTest(StaticLiveServerTestCase):
         self.browser.quit()
 
     @wait
+    def wait_for(self, fn):
+        return fn()
+
+    @wait
     def wait_for_ring(self):
         """ожидать когда зазвенит колокольчик"""
 
@@ -69,6 +73,9 @@ class FunctionalTest(StaticLiveServerTestCase):
         # кнопка выключить скрыта
         read_button = self.browser.find_element_by_css_selector(".bell-status__read")
         self.assertFalse(read_button.is_displayed())
+
+    def send_event_to_bell(self, url, text):
+        self.client.post(url, data={'text': text})
 
     def get_bell_title_inputbox(self):
         """Получить поле ввода имени колокольчика"""

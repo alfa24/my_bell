@@ -1,4 +1,5 @@
 import uuid
+from datetime import datetime
 
 from django.db import models
 
@@ -30,5 +31,6 @@ class Event(models.Model):
     bell = models.ForeignKey(Bell, on_delete=models.CASCADE)
     text = models.CharField(max_length=255, default="", blank=True, null=True)
     read = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True, null=True)
 
     objects = EventManager()

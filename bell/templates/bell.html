@@ -3,24 +3,46 @@
 {% block title %}
     Колокольчик: {{ bell.title }}
 {% endblock %}
+{% block css %}
+    <link href="/static/dynatable/jquery.dynatable.css" rel="stylesheet">
+{% endblock %}
 
 {% block content %}
-    <div class="bell">
-        <div class="bell-wrapper">
-            <div class="bell-title">
-                <h2>{{ bell.title }}</h2>
-            </div>
-            <div class="bell-info">
-                <p>Для уведомления отправте POST-запрос на
-                    адрес {{ request.scheme }}://{{ request.get_host }}{{ bell.get_absolute_url_for_events }}</p>
-                <p>Данные для отправки: <code>{"text": "Описание события"}</code></p>
+    <div class="container">
+        <div class="bell">
+            <div class="bell-wrapper">
+                <div class="bell-title">
+                    <h2>{{ bell.title }}</h2>
+                </div>
+                <div class="bell-info">
+                    <p>Для уведомления отправте POST-запрос на
+                        адрес <code
+                                class="bell-info__add-event-url">{{ request.scheme }}://{{ request.get_host }}{{ bell.get_absolute_url_for_events }}</code>
+                    </p>
+                    <p>Данные для отправки: <code>{"text": "Описание события"}</code></p>
 
+                </div>
+                <div class="bell-status not-ring">
+                    <audio class="bell-status__audio-player" src="{% static "bell_default.mp3" %}" loop="100"></audio>
+                    <h3 class="bell-status__text"></h3>
+                    <button type="button" class="bell-status__read btn btn-danger center-block">Выключить</button>
+                </div>
             </div>
-            <div class="bell-status not-ring">
-                <audio class="bell-status__audio-player" src="{% static "bell_default.mp3" %}" loop="100"></audio>
-                <h3 class="bell-status__text"></h3>
-                <button type="button" class="bell-status__read btn btn-danger center-block">Выключить</button>
-            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="events col-xs-10 center-block">
+            <h3>Последние события</h3>
+            <table class="events-table table table-striped">
+                <thead>
+                    <th class="col-xs-3" data-dynatable-column="date">Дата</th>
+                    <th data-dynatable-column="text">Текст</th>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+
         </div>
     </div>
 
@@ -30,8 +52,13 @@
     <script>
         window.bell = {
             "last_event_url": "{{ bell.get_absolute_url }}events/last/",
-            "read_events_url": "{{ bell.get_absolute_url }}events/read"
+            "read_events_url": "{{ bell.get_absolute_url }}events/read",
+            "latest_events_url": "{{ bell.get_absolute_url }}events/latest/"
         };
     </script>
+    <script src="{% static "dynatable/jquery.dynatable.js" %}"></script>
     <script src="{% static "bell.js" %}"></script>
+    <script>
+
+    </script>
 {% endblock %}

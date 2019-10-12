@@ -1,4 +1,7 @@
+import datetime
+import json
 import uuid
+from unittest import mock
 
 from django.test import TestCase
 
@@ -56,6 +59,16 @@ class EventModelTest(TestCase):
         event = Event(bell=Bell())
         self.assertEqual(event.text, "")
 
+    @mock.patch('django.utils.timezone.now')
+    def test_event_has_creation_date(self, today_mock):
+        """test: событие содержит дату создания"""
+
+        created_at = datetime.datetime.now()
+        today_mock.return_value = created_at
+        bell = Bell.objects.create()
+        event = Event.objects.create(bell=bell)
+        self.assertEqual(event.created_at, created_at)
+
     def test_read_all_events(self):
         """test: отметить прочтенными все сообщения"""
 
@@ -83,3 +96,20 @@ class EventModelTest(TestCase):
         event2 = Event.objects.last()
         self.assertEqual(events[0], event1)
         self.assertTrue(events[1], event2)
+
+    def test_get_latest_json_events(self):
+        """test: получить последние сообщения в формате json"""
+
+        bell = Bell.objects.create()
+        Event.objects.create(bell=bell)
+        Event.objects.create(bell=bell)
+
+        events = Event.objects.latest_data(bell=bell)
+
+        event1 = Event.objects.first()
+        event2 = Event.objects.last()
+
+        self.assertEqual(events[0]["text"], event1.text)
+        self.assertEqual(events[0]["date"], event1.created_at.strftime("%d.%m.%y %H:%M:%S"))
+        self.assertEqual(events[1]["text"], event2.text)
+        self.assertEqual(events[1]["date"], event2.created_at.strftime("%d.%m.%y %H:%M:%S"))

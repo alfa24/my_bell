@@ -42,7 +42,7 @@ def last_event(request, link_ref):
 def latest_events(request, link_ref):
     """получить последние события колокольчика"""
     bell = Bell.objects.get(link_ref=link_ref)
-    events_dict = list(Event.objects.latest(bell).values("text", "read"))
+    events_dict = Event.objects.latest_data(bell)
     return JsonResponse(events_dict, safe=False)
 
 

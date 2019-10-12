@@ -1,11 +1,11 @@
-.center-block{
+.center-block {
     display: block;
     float: none;
     margin-left: auto;
     margin-right: auto;
 }
 
-.form-new-bell{
+.form-new-bell {
     margin-top: 52px;
     margin-bottom: 20px;
 }
@@ -14,6 +14,7 @@
     height: 100%;
     width: 100%;
 }
+
 .bell-wrapper {
     display: flex;
     flex-direction: column;
@@ -22,6 +23,10 @@
     align-content: space-between;
 }
 
-.bell-status.not-ring .bell-status__read{
+.bell-status.not-ring .bell-status__read {
     display: none;
+}
+
+.events {
+    margin-top: 50px;
 }

@@ -1,4 +1,5 @@
 import re
+import time
 from unittest import skip
 
 from selenium.webdriver.common.keys import Keys
@@ -49,7 +50,7 @@ class NewVisitorTest(FunctionalTest):
         self.wait_for_stop_ring()
 
         # он отправляет пост-запрос из другого приложения на этот адрес
-        self.client.post(url, data={'text': 'Новое письмо от Владимира!'})
+        self.send_event_to_bell(url, 'Новое письмо от Владимира!')
 
         # колокольчик начинает звенеть
         self.wait_for_ring()
@@ -65,4 +66,21 @@ class NewVisitorTest(FunctionalTest):
         # Звонок останавливается
         self.wait_for_stop_ring()
 
+    def test_bell_page_displays_the_latest_events(self):
+        """test: На странице колокольчика отображаются последние события"""
 
+        # Иван создает новый колокольчик
+        self.add_new_bell("Важные письма")
+
+        # Этому колоколчику еще не приходили уведомления, поэтому список пустой
+        events = self.browser.find_elements_by_css_selector('.events-table tbody tr')
+        self.assertEqual(events, [])
+
+        # Иван посылает уведомление
+        url = self.browser.find_element_by_css_selector('.bell-info__add-event-url')
+        self.send_event_to_bell(url.text, 'Новое письмо от Ивана!')
+
+        # В списке событий начинает отображаться это уведомление
+        event = self.wait_for(lambda: self.browser.find_element_by_css_selector('.events-table tbody tr'))
+        print(event.text)
+        self.assertIn('Новое письмо от Ивана!', event.text)

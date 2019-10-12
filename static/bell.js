@@ -1,5 +1,17 @@
 $(function () {
 
+    $.dynatableSetup({
+        // your global default options here
+        features: {
+            paginate: false,
+            sort: false,
+            pushState: true,
+            search: false,
+            recordCount: false,
+            perPageSelect: true
+        },
+    });
+
     // проверить последнее событие
     var check_last_event = function () {
         $.ajax({
@@ -21,6 +33,21 @@ $(function () {
         });
     };
 
+    // обновить список последних событий
+    var update_latest_events = function () {
+        $.ajax({
+            dataType: 'json',
+            url: window.bell.latest_events_url,
+            success: function (jsondata) {
+                $('.events-table').dynatable({
+                    dataset: {
+                        records: jsondata
+                    }
+                });
+            }
+        });
+    };
+
     //отметить все события как прочитанные
     var read_all_events = function (e) {
         $.ajax({
@@ -38,6 +65,7 @@ $(function () {
     //бесконечная проверка событий
     var timerId = setTimeout(function tick() {
         check_last_event();
+        update_latest_events();
         timerId = setTimeout(tick, 2000);
     }, 2000);
 
